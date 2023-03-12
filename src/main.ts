@@ -24,7 +24,7 @@ async function main() {
       if (message.date().getTime() < initializedAt) {
         return;
       }
-      if (message.text().startsWith("/ping")) {
+      if (message.text().startsWith("//ping")) {
         await message.say("pong");
         return;
       }

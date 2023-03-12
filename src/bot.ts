@@ -64,8 +64,9 @@ export class ChatGPTBot {
     // remove more text via - - - - - - - - - - - - - - -
     return text
   }
-  async getGPTMessage(text: string): Promise<string> {
-    return await sendMessage(text);
+  async getGPTMessage(text: string,sessionId:string): Promise<string> {
+    // console.info('sessionId:',sessionId);
+    return await sendMessage(text,sessionId);
   }
   // The message is segmented according to its size
   async trySay(
@@ -126,7 +127,7 @@ export class ChatGPTBot {
 
   async onPrivateMessage(talker: ContactInterface, text: string) {
     const talkerId = talker.id;
-    const gptMessage = await this.getGPTMessage(text);
+    const gptMessage = await this.getGPTMessage(text,talkerId);
     await this.trySay(talker, gptMessage);
   }
 
@@ -135,12 +136,16 @@ export class ChatGPTBot {
     text: string,
     room: RoomInterface
   ) {
-    const gptMessage = await this.getGPTMessage(text);
-    const result = `@${talker.name()} ${text}\n\n------ ${gptMessage}`;
+    const gptMessage = await this.getGPTMessage(text,talker.id + room.id);
+    const result = `@${talker.name()} ${text}\n\n\t- - - - - - ${gptMessage}`;
     await this.trySay(room, result);
   }
   async onMessage(message: Message) {
-    console.log(`🎯 ${message.date()} Message: ${message}`);
+    // console.log(`🎯 ${message.date()} Message: ${message}`);
+    console.log(`🎯 ${message.date().toLocaleDateString()} Message: ${message}`);
+    // console.log(`🎯 ${message.date().toLocaleDateString()} Message: `,message);
+    // console.log(`🎯 talker: `, message.talker());// id name
+    // console.log(`🎯 room: `, message.room());// id name
     const talker = message.talker();
     const rawText = message.text();
     const room = message.room();

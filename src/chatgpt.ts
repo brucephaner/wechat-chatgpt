@@ -1,9 +1,29 @@
 import {config} from "./config.js";
+import fetch from "node-fetch";
 
 let apiKey = config.openai_api_key;
 let model = config.model;
-const sendMessage = async (message: string) => {
+//id: talkerId || talkerId + roomId
+
+const context = new Map();
+
+const sendMessage = async (message: string,sessionId:string) => {
   try {
+    if(context.size>10000){
+      context.clear();
+    }
+
+    let messages  = context.get(sessionId);
+    if(!messages){
+      messages = [];
+      context.set(sessionId, messages);
+    }
+    messages.push({role:'user',content:message});
+    while(messages.length > 3) {
+      messages.shift();
+    }
+    console.info('before ask',messages);
+    console.info('ask///////',message);
     const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
       method: "POST",
       headers: {
@@ -12,20 +32,21 @@ const sendMessage = async (message: string) => {
       },
       body: JSON.stringify({
         model: model,
-        messages: [
-          {
-            "role": "user",
-            "content": message
-          }
-        ],
-        temperature: 0.6
+        messages,
+        temperature: 0.7
       }),
     });
     return response.json()
-      .then((data) => data.choices[0].message.content);
+      .then((data) => 
+      {
+        // @ts-ignore
+        let content = data.choices[0].message.content;
+        messages.push({role:'assistant',content});
+        return content;
+      });
   } catch (e) {
     console.error(e)
-    return "Something went wrong"
+    return "try again later!"
   }
 }
 
