@@ -15,7 +15,7 @@
 > 在微信上迅速接入 ChatGPT，让它成为你最好的助手！  
 > [English](README.md) | 中文文档
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/dMLG70?referralCode=bIYugQ)
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app?referralCode=bSiuqN)
 
 ## 🌟 功能点
 
@@ -35,7 +35,7 @@
 
 ## 使用Railway进行部署
 > Railway 是一个免费的 PaaS 平台，5刀以内的账单免费或者每个月500小时的运行时间
-1. 点击 [Railway](https://railway.app/template/dMLG70?referralCode=bIYugQ) 按钮，进入 Railway 部署页面
+1. 点击 [Railway](https://railway.app?referralCode=bSiuqN) 按钮，进入 Railway 部署页面
 2. 点击 `Deploy Now` 按钮，进入 Railway 部署页面
 3. 填写 仓库名称和 `OPENAI_API_KEY`(需要连接 GitHub 账号)
 4. 点击 `Deploy` 按钮

@@ -22,7 +22,7 @@ const sendMessage = async (message: string,sessionId:string) => {
     while(messages.length > 3) {
       messages.shift();
     }
-    console.info('before ask',messages);
+    // console.info('before ask',messages);
     console.info('ask///////',message);
     const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
       method: "POST",
@@ -33,7 +33,7 @@ const sendMessage = async (message: string,sessionId:string) => {
       body: JSON.stringify({
         model: model,
         messages,
-        temperature: 0.7
+        // temperature: 0.6
       }),
     });
     return response.json()
@@ -42,6 +42,7 @@ const sendMessage = async (message: string,sessionId:string) => {
         // @ts-ignore
         let content = data.choices[0].message.content;
         messages.push({role:'assistant',content});
+        console.info('answer------',content);
         return content;
       });
   } catch (e) {

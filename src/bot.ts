@@ -137,14 +137,14 @@ export class ChatGPTBot {
     room: RoomInterface
   ) {
     const gptMessage = await this.getGPTMessage(text,talker.id + room.id);
-    const result = `@${talker.name()} ${text}\n\n\t- - - - - - ${gptMessage}`;
+    const result = `@${talker.name()} ${text}\n >> \n ${gptMessage}`;
     await this.trySay(room, result);
   }
   async onMessage(message: Message) {
     // console.log(`🎯 ${message.date()} Message: ${message}`);
     console.log(`🎯 ${message.date().toLocaleDateString()} Message: ${message}`);
     // console.log(`🎯 ${message.date().toLocaleDateString()} Message: `,message);
-    // console.log(`🎯 talker: `, message.talker());// id name
+    console.log(`🎯 talker: `, message.talker()?.payload?.name);// id name
     // console.log(`🎯 room: `, message.room());// id name
     const talker = message.talker();
     const rawText = message.text();
